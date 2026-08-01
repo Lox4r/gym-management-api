@@ -1,0 +1,99 @@
+### Home
+GET http://localhost:3000/
+
+### Swagger
+GET http://localhost:3000/api-docs
+
+### Get all members
+GET http://localhost:3000/members
+
+### Get one member
+GET http://localhost:3000/members/PUT_MEMBER_ID_HERE
+
+### Create member
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "firstName": "Logan",
+  "lastName": "Oyolo",
+  "email": "logan@example.com",
+  "phone": "+51 999 999 999",
+  "membershipType": "Premium",
+  "joinDate": "2026-08-01",
+  "active": true
+}
+
+### Update member
+PUT http://localhost:3000/members/PUT_MEMBER_ID_HERE
+Content-Type: application/json
+
+{
+  "firstName": "Logan",
+  "lastName": "Oyolo",
+  "email": "logan.updated@example.com",
+  "phone": "+51 999 999 999",
+  "membershipType": "Annual",
+  "joinDate": "2026-08-01",
+  "active": true
+}
+
+### Delete member
+DELETE http://localhost:3000/members/PUT_MEMBER_ID_HERE
+
+### Invalid member validation test
+POST http://localhost:3000/members
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "email": "not-an-email",
+  "active": "yes"
+}
+
+### Get all trainers
+GET http://localhost:3000/trainers
+
+### Get one trainer
+GET http://localhost:3000/trainers/PUT_TRAINER_ID_HERE
+
+### Create trainer
+POST http://localhost:3000/trainers
+Content-Type: application/json
+
+{
+  "firstName": "Maria",
+  "lastName": "Lopez",
+  "specialty": "Strength Training",
+  "email": "maria@example.com",
+  "phone": "+51 988 888 888",
+  "yearsExperience": 5,
+  "active": true
+}
+
+### Update trainer
+PUT http://localhost:3000/trainers/PUT_TRAINER_ID_HERE
+Content-Type: application/json
+
+{
+  "firstName": "Maria",
+  "lastName": "Lopez",
+  "specialty": "Personal Training",
+  "email": "maria@example.com",
+  "phone": "+51 988 888 888",
+  "yearsExperience": 6,
+  "active": true
+}
+
+### Delete trainer
+DELETE http://localhost:3000/trainers/PUT_TRAINER_ID_HERE
+
+### Invalid trainer validation test
+POST http://localhost:3000/trainers
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "email": "invalid-email",
+  "yearsExperience": -5
+}
