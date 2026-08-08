@@ -7,8 +7,8 @@ const doc = {
     version: "1.0.0"
   },
 
-  host: "localhost:3000",
-  schemes: ["http"],
+  host: "gym-management-api-uk9z.onrender.com",
+  schemes: ["https"],
 
   tags: [
     {
@@ -46,8 +46,6 @@ const doc = {
 
 const outputFile = "./swagger-output.json";
 
-// Scan the main routes file so Swagger can detect
-// the /members and /trainers route prefixes.
 const endpointsFiles = ["./routes/index.js"];
 
 swaggerAutogen(outputFile, endpointsFiles, doc)
