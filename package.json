@@ -1,25 +1,32 @@
 {
   "name": "gym-management-api",
-  "version": "1.0.0",
-  "description": "Gym Management API for managing members and trainers",
+  "version": "2.0.0",
+  "description": "Gym Management API with CRUD, validation, OAuth, testing, Swagger, and MongoDB",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "swagger": "node swagger.js"
+    "swagger": "node swagger.js",
+    "test": "jest --runInBand"
   },
   "author": "Logan Oyolo",
   "license": "ISC",
   "dependencies": {
+    "connect-mongo": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "express-validator": "^7.3.2",
     "mongodb": "^7.5.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "jest": "^30.0.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.1.0"
   }
 }

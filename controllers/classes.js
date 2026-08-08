@@ -3,16 +3,16 @@ const mongodb = require("../db/connect");
 
 const getAll = async (req, res) => {
   try {
-    const trainers = await mongodb
+    const classes = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("classes")
       .find()
       .toArray();
 
-    return res.status(200).json(trainers);
+    return res.status(200).json(classes);
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to retrieve trainers.",
+      message: "Failed to retrieve classes.",
       error: error.message
     });
   }
@@ -22,129 +22,125 @@ const getSingle = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid class ID."
       });
     }
 
-    const trainer = await mongodb
+    const gymClass = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("classes")
       .findOne({
         _id: new ObjectId(req.params.id)
       });
 
-    if (!trainer) {
+    if (!gymClass) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Class not found."
       });
     }
 
-    return res.status(200).json(trainer);
+    return res.status(200).json(gymClass);
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to retrieve trainer.",
+      message: "Failed to retrieve class.",
       error: error.message
     });
   }
 };
 
-const createTrainer = async (req, res) => {
+const createClass = async (req, res) => {
   try {
-    const trainer = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      specialty: req.body.specialty,
-      email: req.body.email,
-      phone: req.body.phone,
-      yearsExperience: req.body.yearsExperience,
-      active: req.body.active
+    const gymClass = {
+      className: req.body.className,
+      trainerId: req.body.trainerId,
+      schedule: req.body.schedule,
+      duration: req.body.duration,
+      capacity: req.body.capacity
     };
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
-      .insertOne(trainer);
+      .collection("classes")
+      .insertOne(gymClass);
 
     return res.status(201).json({
-      message: "Trainer created successfully.",
-      trainerId: result.insertedId
+      message: "Class created successfully.",
+      classId: result.insertedId
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to create trainer.",
+      message: "Failed to create class.",
       error: error.message
     });
   }
 };
 
-const updateTrainer = async (req, res) => {
+const updateClass = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid class ID."
       });
     }
 
-    const updatedTrainer = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      specialty: req.body.specialty,
-      email: req.body.email,
-      phone: req.body.phone,
-      yearsExperience: req.body.yearsExperience,
-      active: req.body.active
+    const updatedClass = {
+      className: req.body.className,
+      trainerId: req.body.trainerId,
+      schedule: req.body.schedule,
+      duration: req.body.duration,
+      capacity: req.body.capacity
     };
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("classes")
       .replaceOne(
         { _id: new ObjectId(req.params.id) },
-        updatedTrainer
+        updatedClass
       );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Class not found."
       });
     }
 
     return res.status(204).send();
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to update trainer.",
+      message: "Failed to update class.",
       error: error.message
     });
   }
 };
 
-const deleteTrainer = async (req, res) => {
+const deleteClass = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid class ID."
       });
     }
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("classes")
       .deleteOne({
         _id: new ObjectId(req.params.id)
       });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Class not found."
       });
     }
 
     return res.status(200).json({
-      message: "Trainer deleted successfully."
+      message: "Class deleted successfully."
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to delete trainer.",
+      message: "Failed to delete class.",
       error: error.message
     });
   }
@@ -153,7 +149,7 @@ const deleteTrainer = async (req, res) => {
 module.exports = {
   getAll,
   getSingle,
-  createTrainer,
-  updateTrainer,
-  deleteTrainer
+  createClass,
+  updateClass,
+  deleteClass
 };

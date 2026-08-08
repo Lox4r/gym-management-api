@@ -26,12 +26,10 @@ const getSingle = async (req, res) => {
       });
     }
 
-    const memberId = new ObjectId(req.params.id);
-
     const member = await mongodb
       .getDb()
       .collection("members")
-      .findOne({ _id: memberId });
+      .findOne({ _id: new ObjectId(req.params.id) });
 
     if (!member) {
       return res.status(404).json({
@@ -65,12 +63,6 @@ const createMember = async (req, res) => {
       .collection("members")
       .insertOne(member);
 
-    if (!result.acknowledged) {
-      return res.status(500).json({
-        message: "Failed to create member."
-      });
-    }
-
     return res.status(201).json({
       message: "Member created successfully.",
       memberId: result.insertedId
@@ -91,8 +83,6 @@ const updateMember = async (req, res) => {
       });
     }
 
-    const memberId = new ObjectId(req.params.id);
-
     const updatedMember = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -106,7 +96,10 @@ const updateMember = async (req, res) => {
     const result = await mongodb
       .getDb()
       .collection("members")
-      .replaceOne({ _id: memberId }, updatedMember);
+      .replaceOne(
+        { _id: new ObjectId(req.params.id) },
+        updatedMember
+      );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({
@@ -131,12 +124,12 @@ const deleteMember = async (req, res) => {
       });
     }
 
-    const memberId = new ObjectId(req.params.id);
-
     const result = await mongodb
       .getDb()
       .collection("members")
-      .deleteOne({ _id: memberId });
+      .deleteOne({
+        _id: new ObjectId(req.params.id)
+      });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({

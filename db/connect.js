@@ -1,6 +1,9 @@
 const dns = require("node:dns/promises");
 const { MongoClient } = require("mongodb");
 
+// Apply DNS workaround before MongoDB connections are created.
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
 let database;
 let client;
 
@@ -10,10 +13,8 @@ const initDb = async (callback) => {
   }
 
   try {
-    dns.setServers(["1.1.1.1", "8.8.8.8"]);
-
     if (!process.env.MONGODB_URI) {
-      throw new Error("MONGODB_URI is missing from the environment variables.");
+      throw new Error("MONGODB_URI is missing.");
     }
 
     client = new MongoClient(process.env.MONGODB_URI);
@@ -24,10 +25,10 @@ const initDb = async (callback) => {
 
     console.log("Connected to MongoDB");
 
-    callback(null, database);
+    return callback(null, database);
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
-    callback(error);
+    return callback(error);
   }
 };
 
@@ -42,8 +43,8 @@ const getDb = () => {
 const closeDb = async () => {
   if (client) {
     await client.close();
-    database = undefined;
     client = undefined;
+    database = undefined;
   }
 };
 

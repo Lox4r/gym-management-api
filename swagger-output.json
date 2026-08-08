@@ -2,23 +2,35 @@
   "swagger": "2.0",
   "info": {
     "title": "Gym Management API",
-    "description": "API for managing gym members and trainers.",
-    "version": "1.0.0"
+    "description": "REST API for managing gym members, trainers, classes, and memberships.",
+    "version": "2.0.0"
   },
-  "host": "gym-management-api-uk9z.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
       "name": "Members",
-      "description": "Endpoints for managing gym members"
+      "description": "Gym member management"
     },
     {
       "name": "Trainers",
-      "description": "Endpoints for managing gym trainers"
+      "description": "Gym trainer management"
+    },
+    {
+      "name": "Classes",
+      "description": "Gym class management"
+    },
+    {
+      "name": "Memberships",
+      "description": "Gym membership management"
+    },
+    {
+      "name": "Authentication",
+      "description": "Google OAuth authentication"
     }
   ],
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/": {
@@ -27,6 +39,59 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/failure": {
+      "get": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -362,6 +427,332 @@
           }
         }
       }
+    },
+    "/classes/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "className": {
+                  "example": "any"
+                },
+                "trainerId": {
+                  "example": "any"
+                },
+                "schedule": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "any"
+                },
+                "capacity": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/classes/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "className": {
+                  "example": "any"
+                },
+                "trainerId": {
+                  "example": "any"
+                },
+                "schedule": {
+                  "example": "any"
+                },
+                "duration": {
+                  "example": "any"
+                },
+                "capacity": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/memberships/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberId": {
+                  "example": "any"
+                },
+                "plan": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/memberships/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "memberId": {
+                  "example": "any"
+                },
+                "plan": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -370,19 +761,19 @@
       "properties": {
         "firstName": {
           "type": "string",
-          "example": "Logan"
+          "example": "John"
         },
         "lastName": {
           "type": "string",
-          "example": "Oyolo"
+          "example": "Smith"
         },
         "email": {
           "type": "string",
-          "example": "logan@example.com"
+          "example": "john@example.com"
         },
         "phone": {
           "type": "string",
-          "example": "+51 999 999 999"
+          "example": "5551234567"
         },
         "membershipType": {
           "type": "string",
@@ -390,7 +781,7 @@
         },
         "joinDate": {
           "type": "string",
-          "example": "2026-08-01"
+          "example": "2026-08-08"
         },
         "active": {
           "type": "boolean",
@@ -419,7 +810,7 @@
         },
         "phone": {
           "type": "string",
-          "example": "+51 988 888 888"
+          "example": "5559876543"
         },
         "yearsExperience": {
           "type": "number",
@@ -428,6 +819,56 @@
         "active": {
           "type": "boolean",
           "example": true
+        }
+      }
+    },
+    "GymClass": {
+      "type": "object",
+      "properties": {
+        "className": {
+          "type": "string",
+          "example": "Morning Strength"
+        },
+        "trainerId": {
+          "type": "string",
+          "example": "64b000000000000000000001"
+        },
+        "schedule": {
+          "type": "string",
+          "example": "2026-08-10T09:00:00.000Z"
+        },
+        "duration": {
+          "type": "number",
+          "example": 60
+        },
+        "capacity": {
+          "type": "number",
+          "example": 20
+        }
+      }
+    },
+    "Membership": {
+      "type": "object",
+      "properties": {
+        "memberId": {
+          "type": "string",
+          "example": "64b000000000000000000002"
+        },
+        "plan": {
+          "type": "string",
+          "example": "Premium"
+        },
+        "startDate": {
+          "type": "string",
+          "example": "2026-08-08"
+        },
+        "endDate": {
+          "type": "string",
+          "example": "2027-08-08"
+        },
+        "status": {
+          "type": "string",
+          "example": "active"
         }
       }
     }

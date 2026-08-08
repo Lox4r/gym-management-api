@@ -3,16 +3,16 @@ const mongodb = require("../db/connect");
 
 const getAll = async (req, res) => {
   try {
-    const trainers = await mongodb
+    const memberships = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("memberships")
       .find()
       .toArray();
 
-    return res.status(200).json(trainers);
+    return res.status(200).json(memberships);
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to retrieve trainers.",
+      message: "Failed to retrieve memberships.",
       error: error.message
     });
   }
@@ -22,129 +22,125 @@ const getSingle = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid membership ID."
       });
     }
 
-    const trainer = await mongodb
+    const membership = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("memberships")
       .findOne({
         _id: new ObjectId(req.params.id)
       });
 
-    if (!trainer) {
+    if (!membership) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Membership not found."
       });
     }
 
-    return res.status(200).json(trainer);
+    return res.status(200).json(membership);
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to retrieve trainer.",
+      message: "Failed to retrieve membership.",
       error: error.message
     });
   }
 };
 
-const createTrainer = async (req, res) => {
+const createMembership = async (req, res) => {
   try {
-    const trainer = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      specialty: req.body.specialty,
-      email: req.body.email,
-      phone: req.body.phone,
-      yearsExperience: req.body.yearsExperience,
-      active: req.body.active
+    const membership = {
+      memberId: req.body.memberId,
+      plan: req.body.plan,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      status: req.body.status
     };
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
-      .insertOne(trainer);
+      .collection("memberships")
+      .insertOne(membership);
 
     return res.status(201).json({
-      message: "Trainer created successfully.",
-      trainerId: result.insertedId
+      message: "Membership created successfully.",
+      membershipId: result.insertedId
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to create trainer.",
+      message: "Failed to create membership.",
       error: error.message
     });
   }
 };
 
-const updateTrainer = async (req, res) => {
+const updateMembership = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid membership ID."
       });
     }
 
-    const updatedTrainer = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      specialty: req.body.specialty,
-      email: req.body.email,
-      phone: req.body.phone,
-      yearsExperience: req.body.yearsExperience,
-      active: req.body.active
+    const updatedMembership = {
+      memberId: req.body.memberId,
+      plan: req.body.plan,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      status: req.body.status
     };
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("memberships")
       .replaceOne(
         { _id: new ObjectId(req.params.id) },
-        updatedTrainer
+        updatedMembership
       );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Membership not found."
       });
     }
 
     return res.status(204).send();
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to update trainer.",
+      message: "Failed to update membership.",
       error: error.message
     });
   }
 };
 
-const deleteTrainer = async (req, res) => {
+const deleteMembership = async (req, res) => {
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({
-        message: "Invalid trainer ID."
+        message: "Invalid membership ID."
       });
     }
 
     const result = await mongodb
       .getDb()
-      .collection("trainers")
+      .collection("memberships")
       .deleteOne({
         _id: new ObjectId(req.params.id)
       });
 
     if (result.deletedCount === 0) {
       return res.status(404).json({
-        message: "Trainer not found."
+        message: "Membership not found."
       });
     }
 
     return res.status(200).json({
-      message: "Trainer deleted successfully."
+      message: "Membership deleted successfully."
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Failed to delete trainer.",
+      message: "Failed to delete membership.",
       error: error.message
     });
   }
@@ -153,7 +149,7 @@ const deleteTrainer = async (req, res) => {
 module.exports = {
   getAll,
   getSingle,
-  createTrainer,
-  updateTrainer,
-  deleteTrainer
+  createMembership,
+  updateMembership,
+  deleteMembership
 };

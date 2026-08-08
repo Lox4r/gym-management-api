@@ -1,6 +1,6 @@
 const express = require("express");
-
 const membersController = require("../controllers/members");
+
 const {
   memberValidationRules,
   validate
@@ -9,51 +9,19 @@ const {
 const router = express.Router();
 
 // #swagger.tags = ['Members']
-// #swagger.description = 'Return all gym members.'
-// #swagger.responses[200] = {
-//   description: 'Members retrieved successfully.'
-// }
-// #swagger.responses[500] = {
-//   description: 'Server error.'
-// }
+// #swagger.description = 'Get all gym members.'
 router.get("/", membersController.getAll);
 
 // #swagger.tags = ['Members']
-// #swagger.description = 'Return one gym member by ID.'
-// #swagger.parameters['id'] = {
-//   in: 'path',
-//   required: true,
-//   type: 'string'
-// }
-// #swagger.responses[200] = {
-//   description: 'Member retrieved successfully.'
-// }
-// #swagger.responses[400] = {
-//   description: 'Invalid member ID.'
-// }
-// #swagger.responses[404] = {
-//   description: 'Member not found.'
-// }
-// #swagger.responses[500] = {
-//   description: 'Server error.'
-// }
+// #swagger.description = 'Get one member by ID.'
 router.get("/:id", membersController.getSingle);
 
 // #swagger.tags = ['Members']
-// #swagger.description = 'Create a new gym member.'
+// #swagger.description = 'Create a member.'
 // #swagger.parameters['body'] = {
 //   in: 'body',
 //   required: true,
 //   schema: { $ref: '#/definitions/Member' }
-// }
-// #swagger.responses[201] = {
-//   description: 'Member created successfully.'
-// }
-// #swagger.responses[400] = {
-//   description: 'Validation failed.'
-// }
-// #swagger.responses[500] = {
-//   description: 'Server error.'
 // }
 router.post(
   "/",
@@ -63,28 +31,11 @@ router.post(
 );
 
 // #swagger.tags = ['Members']
-// #swagger.description = 'Update an existing gym member.'
-// #swagger.parameters['id'] = {
-//   in: 'path',
-//   required: true,
-//   type: 'string'
-// }
+// #swagger.description = 'Update a member.'
 // #swagger.parameters['body'] = {
 //   in: 'body',
 //   required: true,
 //   schema: { $ref: '#/definitions/Member' }
-// }
-// #swagger.responses[204] = {
-//   description: 'Member updated successfully.'
-// }
-// #swagger.responses[400] = {
-//   description: 'Invalid data or ID.'
-// }
-// #swagger.responses[404] = {
-//   description: 'Member not found.'
-// }
-// #swagger.responses[500] = {
-//   description: 'Server error.'
 // }
 router.put(
   "/:id",
@@ -94,24 +45,7 @@ router.put(
 );
 
 // #swagger.tags = ['Members']
-// #swagger.description = 'Delete a gym member.'
-// #swagger.parameters['id'] = {
-//   in: 'path',
-//   required: true,
-//   type: 'string'
-// }
-// #swagger.responses[200] = {
-//   description: 'Member deleted successfully.'
-// }
-// #swagger.responses[400] = {
-//   description: 'Invalid member ID.'
-// }
-// #swagger.responses[404] = {
-//   description: 'Member not found.'
-// }
-// #swagger.responses[500] = {
-//   description: 'Server error.'
-// }
+// #swagger.description = 'Delete a member.'
 router.delete("/:id", membersController.deleteMember);
 
-module.exports = router;
+module.exports = router; 
