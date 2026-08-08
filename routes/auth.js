@@ -4,11 +4,13 @@ const passport = require("passport");
 const router = express.Router();
 
 // Start Google OAuth login
-router.get("/google", (req, res, next) => {
+router.get(
+  "/google",
   passport.authenticate("google", {
-    scope: ["profile", "email"]
-  })(req, res, next);
-});
+    scope: ["profile", "email"],
+    prompt: "select_account"
+  })
+);
 
 // Google OAuth callback
 router.get(
@@ -17,13 +19,13 @@ router.get(
     failureRedirect: "/auth/failure"
   }),
   (req, res) => {
-    res.redirect("/auth/status");
+    return res.redirect("/auth/status");
   }
 );
 
 // Check authentication status
 router.get("/status", (req, res) => {
-  if (!req.isAuthenticated()) {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
     return res.status(401).json({
       authenticated: false,
       message: "Not logged in."
@@ -43,7 +45,11 @@ router.get("/logout", (req, res, next) => {
       return next(error);
     }
 
-    req.session.destroy(() => {
+    req.session.destroy((sessionError) => {
+      if (sessionError) {
+        return next(sessionError);
+      }
+
       res.clearCookie("connect.sid");
 
       return res.status(200).json({
