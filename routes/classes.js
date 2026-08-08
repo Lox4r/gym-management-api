@@ -1,6 +1,6 @@
 const express = require("express");
-const classesController = require("../controllers/classes");
 
+const classesController = require("../controllers/classes");
 const { isAuthenticated } = require("../middleware/auth");
 
 const {
@@ -10,22 +10,19 @@ const {
 
 const router = express.Router();
 
-// #swagger.tags = ['Classes']
-// #swagger.description = 'Get all gym classes.'
-router.get("/", classesController.getAll);
+// GET all classes - public
+router.get(
+  "/",
+  classesController.getAll
+);
 
-// #swagger.tags = ['Classes']
-// #swagger.description = 'Get one gym class by ID.'
-router.get("/:id", classesController.getSingle);
+// GET one class - public
+router.get(
+  "/:id",
+  classesController.getSingle
+);
 
-// #swagger.tags = ['Classes']
-// #swagger.description = 'Create a gym class. Authentication required.'
-// #swagger.parameters['body'] = {
-//   in: 'body',
-//   required: true,
-//   schema: { $ref: '#/definitions/GymClass' }
-// }
-// #swagger.responses[401] = { description: 'Authentication required.' }
+// POST class - protected
 router.post(
   "/",
   isAuthenticated,
@@ -34,14 +31,7 @@ router.post(
   classesController.createClass
 );
 
-// #swagger.tags = ['Classes']
-// #swagger.description = 'Update a gym class. Authentication required.'
-// #swagger.parameters['body'] = {
-//   in: 'body',
-//   required: true,
-//   schema: { $ref: '#/definitions/GymClass' }
-// }
-// #swagger.responses[401] = { description: 'Authentication required.' }
+// PUT class - protected
 router.put(
   "/:id",
   isAuthenticated,
@@ -50,9 +40,7 @@ router.put(
   classesController.updateClass
 );
 
-// #swagger.tags = ['Classes']
-// #swagger.description = 'Delete a gym class. Authentication required.'
-// #swagger.responses[401] = { description: 'Authentication required.' }
+// DELETE class - protected
 router.delete(
   "/:id",
   isAuthenticated,

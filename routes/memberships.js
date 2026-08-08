@@ -10,24 +10,19 @@ const {
 
 const router = express.Router();
 
-// #swagger.tags = ['Memberships']
-// #swagger.description = 'Get all memberships.'
-router.get("/", membershipsController.getAll);
+// GET all memberships - public
+router.get(
+  "/",
+  membershipsController.getAll
+);
 
-// #swagger.tags = ['Memberships']
-// #swagger.description = 'Get one membership by ID.'
-router.get("/:id", membershipsController.getSingle);
+// GET one membership - public
+router.get(
+  "/:id",
+  membershipsController.getSingle
+);
 
-// #swagger.tags = ['Memberships']
-// #swagger.description = 'Create a membership. Authentication required.'
-// #swagger.parameters['body'] = {
-//   in: 'body',
-//   required: true,
-//   schema: { $ref: '#/definitions/Membership' }
-// }
-// #swagger.responses[401] = {
-//   description: 'Authentication required.'
-// }
+// POST membership - protected
 router.post(
   "/",
   isAuthenticated,
@@ -36,16 +31,7 @@ router.post(
   membershipsController.createMembership
 );
 
-// #swagger.tags = ['Memberships']
-// #swagger.description = 'Update a membership. Authentication required.'
-// #swagger.parameters['body'] = {
-//   in: 'body',
-//   required: true,
-//   schema: { $ref: '#/definitions/Membership' }
-// }
-// #swagger.responses[401] = {
-//   description: 'Authentication required.'
-// }
+// PUT membership - protected
 router.put(
   "/:id",
   isAuthenticated,
@@ -54,11 +40,7 @@ router.put(
   membershipsController.updateMembership
 );
 
-// #swagger.tags = ['Memberships']
-// #swagger.description = 'Delete a membership. Authentication required.'
-// #swagger.responses[401] = {
-//   description: 'Authentication required.'
-// }
+// DELETE membership - protected
 router.delete(
   "/:id",
   isAuthenticated,
