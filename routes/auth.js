@@ -15,9 +15,20 @@ router.get(
 // Google OAuth callback
 router.get(
   "/google/callback",
+
+  // Prevent direct access to the callback URL
+  (req, res, next) => {
+    if (!req.query.code && !req.query.error) {
+      return res.redirect("/auth/google");
+    }
+
+    next();
+  },
+
   passport.authenticate("google", {
     failureRedirect: "/auth/failure"
   }),
+
   (req, res) => {
     return res.redirect("/auth/status");
   }
